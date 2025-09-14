@@ -1,0 +1,20 @@
+Model: "sequential_1"
+┏━━━━━━━━┳━━━━━━┳━━━━┓
+┃ Layer  ┃ Out… ┃ P… ┃
+┃ (type) ┃ Sha… ┃  # ┃
+┡━━━━━━━━╇━━━━━━╇━━━━┩
+│ gru    │ (No… │ 1… │
+│ (GRU)  │ 64)  │    │
+├────────┼──────┼────┤
+│ dropo… │ (No… │  0 │
+│ (Drop… │ 64)  │    │
+├────────┼──────┼────┤
+│ dense… │ (No… │ 65 │
+│ (Dens… │ 1)   │    │
+└────────┴──────┴────┘
+ Total params: 12,929 
+(50.50 KB)
+ Trainable params: 12,929 
+(50.50 KB)
+ Non-trainable params: 0 
+(0.00 B)
