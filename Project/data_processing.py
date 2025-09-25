@@ -26,16 +26,17 @@ from sklearn.model_selection import train_test_split
 def load_and_process_data(ticker, start_date, end_date, 
                          features=['Close'], 
                          split_method='ratio', split_value=0.8,
-                         cache_dir='data_cache', scale_features=True):
+                         cache_dir='data_cache', scale_features=True,
+                         scale_mode='per_feature'):
     """
-    Enhanced data loading and processing function for Task C.2
+    Enhanced data loading and processing function for Task C.2, extended for C.5
     
-    This function addresses the major limitations of v0.1:
-    - Supports multiple features instead of just 'Close' price
+    This function addresses the major limitations of v0.1 and is updated for C.5:
+    - Supports multiple features for multivariate prediction (C.5)
     - Handles NaN values properly  
     - Provides flexible train/test splitting methods
     - Implements local caching to avoid repeated downloads
-    - Applies proper scaling with separate scalers per feature
+    - Applies proper scaling with multiple strategies (per_feature or all_features) (C.5)
     - Prevents data leakage by fitting scalers only on training data
     
     Parameters:
@@ -52,10 +53,13 @@ def load_and_process_data(ticker, start_date, end_date,
                        - 'random': Random split with fixed random_state
     split_value: Split parameter depending on method *** REQUIREMENT (c) ***:
                 - For 'ratio': float between 0 and 1 (e.g., 0.8 = 80% train, 20% test)
-                - For 'date': string date 'YYYY-MM-DD' (train data before this date)
+                - For 'date': string date 'YYYY-MM-DD' (train_end)
                 - For 'random': float between 0 and 1 (train_size for random split)
     cache_dir (str): Directory to store cached data files *** REQUIREMENT (d) ***
     scale_features (bool): Whether to apply MinMax scaling (0,1) to features *** REQUIREMENT (e) ***
+    scale_mode (str): Scaling strategy for multivariate data (Task C.5 extension)
+                     - 'per_feature': Each feature gets its own scaler (original behavior)
+                     - 'all_features': A single scaler is fitted to all features together
     
     Returns:
     --------
@@ -64,7 +68,8 @@ def load_and_process_data(ticker, start_date, end_date,
         - 'test_data': Test set dataframe (scaled if scale_features=True)
         - 'raw_train_data': Original unscaled training data  
         - 'raw_test_data': Original unscaled test data
-        - 'scalers': Dictionary of fitted MinMaxScaler objects per feature *** REQUIREMENT (e) ***
+        - 'scalers': Dictionary of fitted MinMaxScaler objects. 
+                     If scale_mode is 'all_features', the key is 'all'.
         - 'metadata': Information about processing parameters
     """
     
@@ -317,81 +322,66 @@ def load_and_process_data(ticker, start_date, end_date,
     
     if scale_features:
         print(f"✓ Requirement (e): Applying MinMax scaling and storing scalers")
+        print(f"Scaling mode: {scale_mode}")
         print("IMPORTANT: Fitting scalers on training data only to prevent data leakage")
         
         # Initialize scaled datasets as copies of raw data
         train_data = raw_train_data.copy()
         test_data = raw_test_data.copy()
         
-        # Apply scaling to each feature separately
-        # Each feature gets its own scaler because they have different ranges
-        # (e.g., Price vs Volume have very different scales)
-        for feature in normalized_features:
-            print(f"Processing feature: {feature}")
-            
-            # Create a new MinMaxScaler for this feature
-            # feature_range=(0,1) scales values to be between 0 and 1
-            # This normalization helps neural networks learn more effectively
+        if scale_mode == 'all_features':
+            # Task C.5: Scale all features together using one scaler
             scaler = MinMaxScaler(feature_range=(0, 1))
             
-            # CRITICAL STEP: Fit the scaler ONLY on training data
-            # This prevents data leakage (using future information to scale past data)
-            # Data leakage is when information from the test set influences the training process
+            # Fit on the entire training dataframe
+            scaler.fit(raw_train_data[normalized_features])
             
-            # Get training data for this feature as 1D array
-            train_values_1d = raw_train_data[feature].values
+            # Transform both train and test data
+            train_data[normalized_features] = scaler.transform(raw_train_data[normalized_features])
+            test_data[normalized_features] = scaler.transform(raw_test_data[normalized_features])
             
-            # sklearn requires 2D input: reshape(-1, 1) converts 1D array to 2D column vector
-            # -1 means "figure out this dimension automatically"
-            # 1 means "make this a single column"
-            # So (n,) becomes (n, 1) where n is the number of samples
-            train_values_2d = train_values_1d.reshape(-1, 1)
-            
-            # Fit the scaler on training data and transform it
-            # fit_transform() does two things:
-            # 1. fit(): Calculate min and max values from training data
-            # 2. transform(): Apply the scaling using those min/max values
-            train_scaled_2d = scaler.fit_transform(train_values_2d)
-            train_scaled_1d = train_scaled_2d.flatten()  # Convert back to 1D array
-            
-            # Transform test data using the SAME scaler fitted on training data
-            # This is crucial: we use transform() NOT fit_transform()
-            # We apply the scaling parameters learned from training data to test data
-            test_values_1d = raw_test_data[feature].values  
-            test_values_2d = test_values_1d.reshape(-1, 1)
-            test_scaled_2d = scaler.transform(test_values_2d)  # Note: transform, not fit_transform
-            test_scaled_1d = test_scaled_2d.flatten()
-            
-            # Update the scaled datasets with the normalized values
-            train_data[feature] = train_scaled_1d
-            test_data[feature] = test_scaled_1d
-            
-            # Store the scaler for future inverse transformations
-            # We need these scalers later to convert predictions back to original scale
-            scalers[feature] = scaler
-            
-            # Print scaling statistics for verification and debugging
-            train_min, train_max = train_values_1d.min(), train_values_1d.max()
-            test_min, test_max = test_values_1d.min(), test_values_1d.max()
-            scaled_test_min, scaled_test_max = test_scaled_1d.min(), test_scaled_1d.max()
-            
-            print(f"  {feature}:")
-            print(f"    Train range: [{train_min:.2f}, {train_max:.2f}] -> [0.00, 1.00]")
-            print(f"    Test range: [{test_min:.2f}, {test_max:.2f}] -> [{scaled_test_min:.2f}, {scaled_test_max:.2f}]")
-            
-            # Warning if test data goes outside [0,1] range
-            # This indicates that the test period has different price ranges than training period
-            # This is the "ISSUE #2" mentioned in v0.1 comments
-            if scaled_test_min < -0.1 or scaled_test_max > 1.1:
-                print(f"    ⚠️  WARNING: Test data for {feature} extends outside [0,1] range!")
-                print(f"       This suggests test period has different {feature} range than training period")
-                print(f"       This is the 'ISSUE #2' mentioned in v0.1 comments")
-                print(f"       The model may struggle with values outside its training range")
+            # Store the single scaler
+            scalers['all'] = scaler
+            print("✓ Applied a single scaler to all features.")
+
+        elif scale_mode == 'per_feature':
+            # Original Task C.2 behavior: Scale each feature separately
+            for feature in normalized_features:
+                print(f"Processing feature: {feature}")
+                
+                scaler = MinMaxScaler(feature_range=(0, 1))
+                
+                train_values_2d = raw_train_data[feature].values.reshape(-1, 1)
+                scaler.fit(train_values_2d)
+                
+                train_data[feature] = scaler.transform(train_values_2d).flatten()
+                test_values_2d = raw_test_data[feature].values.reshape(-1, 1)
+                test_data[feature] = scaler.transform(test_values_2d).flatten()
+                
+                scalers[feature] = scaler
+                
+                # Print scaling statistics for verification and debugging
+                train_min, train_max = train_values_2d.min(), train_values_2d.max()
+                test_min, test_max = test_values_2d.min(), test_values_2d.max()
+                scaled_test_min, scaled_test_max = test_data[feature].min(), test_data[feature].max()
+                
+                print(f"  {feature}:")
+                print(f"    Train range: [{train_min:.2f}, {train_max:.2f}] -> [0.00, 1.00]")
+                print(f"    Test range: [{test_min:.2f}, {test_max:.2f}] -> [{scaled_test_min:.2f}, {scaled_test_max:.2f}]")
+                
+                # Warning if test data goes outside [0,1] range
+                # This indicates that the test period has different price ranges than training period
+                # This is the "ISSUE #2" mentioned in v0.1 comments
+                if scaled_test_min < -0.1 or scaled_test_max > 1.1:
+                    print(f"    ⚠️  WARNING: Test data for {feature} extends outside [0,1] range!")
+                    print(f"       This suggests test period has different {feature} range than training period")
+                    print(f"       This is the 'ISSUE #2' mentioned in v0.1 comments")
+                    print(f"       The model may struggle with values outside its training range")
         
-        # Save scalers to cache for future use
-        # We save the scalers so that in future predictions, we can:
-        # 1. Scale new input data using the same scalers
-        # 2. Inverse transform predictions back to original scale
+        else:
+            raise ValueError("scale_mode must be 'per_feature' or 'all_features'")
+
+        # Save scalers to cache
         scalers_cache_path = os.path.join(cache_dir, f"{cache_key}_scalers.pkl")
         with open(scalers_cache_path, 'wb') as f:
             pickle.dump(scalers, f)
@@ -441,7 +431,7 @@ def load_and_process_data(ticker, start_date, end_date,
         'raw_train_data': raw_train_data,   # Original unscaled training data
         'raw_test_data': raw_test_data,     # Original unscaled test data
         'scalers': scalers,                 # Dictionary of fitted scalers per feature
-        'metadata': metadata                # Processing information and parameters
+        'config': metadata                # Processing information and parameters
     }
     
     print("=== ✅ All Task C.2 Requirements (a-e) Completed Successfully ===")

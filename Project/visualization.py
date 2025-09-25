@@ -507,7 +507,7 @@ def plot_boxplot_chart(ticker, start_date, end_date, window_size=20,
         'Min Window Volatility': f"${np.min(volatilities):.2f}"
     }
     
-    # Add summary text box
+    # Add summary text
     summary_text = '\n'.join([f'{k}: {v}' for k, v in overall_stats.items()])
     ax1.text(0.02, 0.98, summary_text, transform=ax1.transAxes,
             verticalalignment='top', fontsize=9,
@@ -556,6 +556,82 @@ def plot_boxplot_chart(ticker, start_date, end_date, window_size=20,
     
     print("✅ Box plot chart creation completed!")
     return result
+
+#------------------------------------------------------------------------------
+# Task C.3.3: Training History Visualization Function
+# Visualize the training and validation loss/MAE over epochs for the prediction model
+#------------------------------------------------------------------------------
+
+def plot_training_history(history, save_path=None, title='Model Training History'):
+    """
+    Plots the training and validation loss and MAE from a Keras history object.
+
+    Args:
+        history (tf.keras.callbacks.History): History object from model.fit().
+        save_path (str, optional): Path to save the plot image. Defaults to None.
+        title (str, optional): Title for the plot. Defaults to 'Model Training History'.
+    """
+    print(f"🎨 Plotting training history: {title}")
+    
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
+    
+    # Plot Loss
+    ax1.plot(history.history['loss'], label='Training Loss')
+    ax1.plot(history.history['val_loss'], label='Validation Loss')
+    ax1.set_ylabel('Loss (MSE)')
+    ax1.set_title('Loss Over Epochs')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot MAE
+    ax2.plot(history.history['mae'], label='Training MAE')
+    ax2.plot(history.history['val_mae'], label='Validation MAE')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Mean Absolute Error (MAE)')
+    ax2.set_title('MAE Over Epochs')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    fig.suptitle(title, fontsize=16, fontweight='bold')
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300)
+        print(f"✅ Training history plot saved to: {save_path}")
+        
+    plt.show()
+
+#------------------------------------------------------------------------------
+# Task C.3.4: Predictions Visualization Function
+# Compare model predictions against actual values
+#------------------------------------------------------------------------------
+
+def plot_predictions_vs_actual(y_true, y_pred, save_path=None, title='Predictions vs. Actual Values'):
+    """
+    Plots the model's predictions against the actual true values.
+
+    Args:
+        y_true (np.ndarray): The actual values.
+        y_pred (np.ndarray): The predicted values from the model.
+        save_path (str, optional): Path to save the plot image. Defaults to None.
+        title (str, optional): Title for the plot. Defaults to 'Predictions vs. Actual Values'.
+    """
+    print(f"🎨 Plotting predictions vs. actual values: {title}")
+    
+    plt.figure(figsize=(14, 7))
+    plt.plot(y_true, color='blue', label='Actual Price')
+    plt.plot(y_pred, color='red', label='Predicted Price', alpha=0.7)
+    plt.title(title, fontsize=16, fontweight='bold')
+    plt.xlabel('Time')
+    plt.ylabel('Price')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300)
+        print(f"✅ Predictions plot saved to: {save_path}")
+        
+    plt.show()
 
 #------------------------------------------------------------------------------
 # Example usage and testing functions
