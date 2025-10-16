@@ -84,7 +84,7 @@ def load_and_process_data(ticker, start_date, end_date,
         # Validate date format by attempting to parse them
         pd.to_datetime(start_date)
         pd.to_datetime(end_date)
-        print(f"✓ Requirement (a): Date range specified - {start_date} to {end_date}")
+        print(f"[OK] Requirement (a): Date range specified - {start_date} to {end_date}")
     except:
         raise ValueError("start_date and end_date must be in 'YYYY-MM-DD' format")
     
@@ -96,7 +96,7 @@ def load_and_process_data(ticker, start_date, end_date,
     # Setup caching system to avoid repeated downloads
     #--------------------------------------------------------------------------
     
-    print(f"✓ Requirement (d): Setting up local data caching")
+    print(f"[OK] Requirement (d): Setting up local data caching")
     
     # Create cache directory if it doesn't exist
     # This allows us to store downloaded data locally for future use
@@ -112,7 +112,7 @@ def load_and_process_data(ticker, start_date, end_date,
     
     # Check if cached data exists and load it
     if os.path.exists(cache_csv_path) and os.path.exists(cache_meta_path):
-        print(f"✓ Loading from cache: {cache_csv_path}")
+        print(f"[OK] Loading from cache: {cache_csv_path}")
         # Load the CSV file with proper date parsing
         # index_col=0 means first column (Date) becomes the index
         # parse_dates=True converts the index to datetime objects
@@ -123,7 +123,7 @@ def load_and_process_data(ticker, start_date, end_date,
             cache_metadata = json.load(f)
             print(f"Cache created: {cache_metadata['cache_date']}")
     else:
-        print(f"✓ Downloading fresh data for {ticker} from {start_date} to {end_date}")
+        print(f"[OK] Downloading fresh data for {ticker} from {start_date} to {end_date}")
         
         # Download data using yfinance
         # yfinance is more reliable than pandas_datareader for Yahoo Finance data
@@ -137,7 +137,7 @@ def load_and_process_data(ticker, start_date, end_date,
         
         # Save to cache for future use
         data.to_csv(cache_csv_path)
-        print(f"✓ Data cached to: {cache_csv_path}")
+        print(f"[OK] Data cached to: {cache_csv_path}")
         
         # Save metadata about this cached dataset
         cache_metadata = {
@@ -151,7 +151,7 @@ def load_and_process_data(ticker, start_date, end_date,
         
         with open(cache_meta_path, 'w') as f:
             json.dump(cache_metadata, f, indent=2)
-        print(f"✓ Metadata cached to: {cache_meta_path}")
+        print(f"[OK] Metadata cached to: {cache_meta_path}")
     
     print(f"Original data shape: {data.shape}")
     print(f"Available columns: {list(data.columns)}")
@@ -200,7 +200,7 @@ def load_and_process_data(ticker, start_date, end_date,
     # Handle NaN (missing) values properly
     #--------------------------------------------------------------------------
     
-    print(f"✓ Requirement (b): Handling NaN values in the data")
+    print(f"[OK] Requirement (b): Handling NaN values in the data")
     
     # Check for NaN values in our selected features
     nan_counts = feature_data.isnull().sum()
@@ -232,11 +232,11 @@ def load_and_process_data(ticker, start_date, end_date,
             print(f"Dropped {rows_before_drop - rows_after_drop} rows with remaining NaN values")
         
         remaining_nans = feature_data_clean.isnull().sum().sum()
-        print(f"✓ After cleaning: {remaining_nans} NaN values remaining")
+        print(f"[OK] After cleaning: {remaining_nans} NaN values remaining")
         print(f"Data shape after NaN handling: {feature_data_clean.shape}")
         
     else:
-        print("✓ No NaN values found in the selected features")
+        print("[OK] No NaN values found in the selected features")
         feature_data_clean = feature_data.copy()
     
     #--------------------------------------------------------------------------
@@ -244,7 +244,7 @@ def load_and_process_data(ticker, start_date, end_date,
     # Split data into training and testing sets using flexible methods
     #--------------------------------------------------------------------------
     
-    print(f"✓ Requirement (c): Splitting data using '{split_method}' method")
+    print(f"[OK] Requirement (c): Splitting data using '{split_method}' method")
     
     if split_method == 'ratio':
         # Method 1: Split by ratio - first X% for training, remaining for testing
@@ -321,7 +321,7 @@ def load_and_process_data(ticker, start_date, end_date,
     scalers = {}
     
     if scale_features:
-        print(f"✓ Requirement (e): Applying MinMax scaling and storing scalers")
+        print(f"[OK] Requirement (e): Applying MinMax scaling and storing scalers")
         print(f"Scaling mode: {scale_mode}")
         print("IMPORTANT: Fitting scalers on training data only to prevent data leakage")
         
@@ -342,7 +342,7 @@ def load_and_process_data(ticker, start_date, end_date,
             
             # Store the single scaler
             scalers['all'] = scaler
-            print("✓ Applied a single scaler to all features.")
+            print("[OK] Applied a single scaler to all features.")
 
         elif scale_mode == 'per_feature':
             # Original Task C.2 behavior: Scale each feature separately
@@ -373,7 +373,7 @@ def load_and_process_data(ticker, start_date, end_date,
                 # This indicates that the test period has different price ranges than training period
                 # This is the "ISSUE #2" mentioned in v0.1 comments
                 if scaled_test_min < -0.1 or scaled_test_max > 1.1:
-                    print(f"    ⚠️  WARNING: Test data for {feature} extends outside [0,1] range!")
+                    print(f"    [WARN] WARNING: Test data for {feature} extends outside [0,1] range!")
                     print(f"       This suggests test period has different {feature} range than training period")
                     print(f"       This is the 'ISSUE #2' mentioned in v0.1 comments")
                     print(f"       The model may struggle with values outside its training range")
@@ -385,10 +385,10 @@ def load_and_process_data(ticker, start_date, end_date,
         scalers_cache_path = os.path.join(cache_dir, f"{cache_key}_scalers.pkl")
         with open(scalers_cache_path, 'wb') as f:
             pickle.dump(scalers, f)
-        print(f"✓ Scalers saved to: {scalers_cache_path}")
+        print(f"[OK] Scalers saved to: {scalers_cache_path}")
         
     else:
-        print("✓ Scaling disabled - using raw feature values")
+        print("[OK] Scaling disabled - using raw feature values")
         train_data = raw_train_data.copy()
         test_data = raw_test_data.copy()
         scalers = None
@@ -434,7 +434,7 @@ def load_and_process_data(ticker, start_date, end_date,
         'config': metadata                # Processing information and parameters
     }
     
-    print("=== ✅ All Task C.2 Requirements (a-e) Completed Successfully ===")
+    print("=== [OK] All Task C.2 Requirements (a-e) Completed Successfully ===")
     print(f"Training data shape: {train_data.shape}")
     print(f"Test data shape: {test_data.shape}")
     print(f"Features processed: {len(normalized_features)}")
