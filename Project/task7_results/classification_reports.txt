@@ -1,0 +1,424 @@
+================================================================================
+DETAILED CLASSIFICATION REPORTS
+================================================================================
+
+
+Model: sentiment_only_gradientboosting
+Feature Set: sentiment_only
+Algorithm: gradientboosting
+------------------------------------------------------------
+Accuracy:  0.5761
+Precision: 0.5513
+Recall:    0.9149
+F1 Score:  0.6880
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        10             35
+Actual UP:           4             43
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2222
+Negative Predictive Value:        0.7143
+
+================================================================================
+
+Model: combined_gradientboosting
+Feature Set: combined
+Algorithm: gradientboosting
+------------------------------------------------------------
+Accuracy:  0.5543
+Precision: 0.5357
+Recall:    0.9574
+F1 Score:  0.6870
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         6             39
+Actual UP:           2             45
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.1333
+Negative Predictive Value:        0.7500
+
+================================================================================
+
+Model: sentiment_only_xgboost
+Feature Set: sentiment_only
+Algorithm: xgboost
+------------------------------------------------------------
+Accuracy:  0.5543
+Precision: 0.5375
+Recall:    0.9149
+F1 Score:  0.6772
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         8             37
+Actual UP:           4             43
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.1778
+Negative Predictive Value:        0.6667
+
+================================================================================
+
+Model: sentiment_only_svm_rbf
+Feature Set: sentiment_only
+Algorithm: svm_rbf
+------------------------------------------------------------
+Accuracy:  0.5761
+Precision: 0.5571
+Recall:    0.8298
+F1 Score:  0.6667
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        14             31
+Actual UP:           8             39
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.3111
+Negative Predictive Value:        0.6364
+
+================================================================================
+
+Model: combined_mlp
+Feature Set: combined
+Algorithm: mlp
+------------------------------------------------------------
+Accuracy:  0.5326
+Precision: 0.5250
+Recall:    0.8936
+F1 Score:  0.6614
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         7             38
+Actual UP:           5             42
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.1556
+Negative Predictive Value:        0.5833
+
+================================================================================
+
+Model: technical_only_gradientboosting
+Feature Set: technical_only
+Algorithm: gradientboosting
+------------------------------------------------------------
+Accuracy:  0.5000
+Precision: 0.5057
+Recall:    0.9362
+F1 Score:  0.6567
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         2             43
+Actual UP:           3             44
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.0444
+Negative Predictive Value:        0.4000
+
+================================================================================
+
+Model: combined_logistic
+Feature Set: combined
+Algorithm: logistic
+------------------------------------------------------------
+Accuracy:  0.5326
+Precision: 0.5263
+Recall:    0.8511
+F1 Score:  0.6504
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         9             36
+Actual UP:           7             40
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2000
+Negative Predictive Value:        0.5625
+
+================================================================================
+
+Model: combined_xgboost
+Feature Set: combined
+Algorithm: xgboost
+------------------------------------------------------------
+Accuracy:  0.5435
+Precision: 0.5342
+Recall:    0.8298
+F1 Score:  0.6500
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        11             34
+Actual UP:           8             39
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2444
+Negative Predictive Value:        0.5789
+
+================================================================================
+
+Model: technical_only_logistic
+Feature Set: technical_only
+Algorithm: logistic
+------------------------------------------------------------
+Accuracy:  0.5217
+Precision: 0.5195
+Recall:    0.8511
+F1 Score:  0.6452
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         8             37
+Actual UP:           7             40
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.1778
+Negative Predictive Value:        0.5333
+
+================================================================================
+
+Model: technical_only_mlp
+Feature Set: technical_only
+Algorithm: mlp
+------------------------------------------------------------
+Accuracy:  0.5435
+Precision: 0.5362
+Recall:    0.7872
+F1 Score:  0.6379
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        13             32
+Actual UP:          10             37
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2889
+Negative Predictive Value:        0.5652
+
+================================================================================
+
+Model: combined_svm_linear
+Feature Set: combined
+Algorithm: svm_linear
+------------------------------------------------------------
+Accuracy:  0.5217
+Precision: 0.5205
+Recall:    0.8085
+F1 Score:  0.6333
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        10             35
+Actual UP:           9             38
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2222
+Negative Predictive Value:        0.5263
+
+================================================================================
+
+Model: technical_only_svm_linear
+Feature Set: technical_only
+Algorithm: svm_linear
+------------------------------------------------------------
+Accuracy:  0.5217
+Precision: 0.5217
+Recall:    0.7660
+F1 Score:  0.6207
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        12             33
+Actual UP:          11             36
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2667
+Negative Predictive Value:        0.5217
+
+================================================================================
+
+Model: technical_only_random_forest
+Feature Set: technical_only
+Algorithm: random_forest
+------------------------------------------------------------
+Accuracy:  0.4457
+Precision: 0.4706
+Recall:    0.6809
+F1 Score:  0.5565
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:         9             36
+Actual UP:          15             32
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2000
+Negative Predictive Value:        0.3750
+
+================================================================================
+
+Model: combined_random_forest
+Feature Set: combined
+Algorithm: random_forest
+------------------------------------------------------------
+Accuracy:  0.4457
+Precision: 0.4688
+Recall:    0.6383
+F1 Score:  0.5405
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        11             34
+Actual UP:          17             30
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2444
+Negative Predictive Value:        0.3929
+
+================================================================================
+
+Model: technical_only_xgboost
+Feature Set: technical_only
+Algorithm: xgboost
+------------------------------------------------------------
+Accuracy:  0.5000
+Precision: 0.5102
+Recall:    0.5319
+F1 Score:  0.5208
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        21             24
+Actual UP:          22             25
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.4667
+Negative Predictive Value:        0.4884
+
+================================================================================
+
+Model: combined_svm_rbf
+Feature Set: combined
+Algorithm: svm_rbf
+------------------------------------------------------------
+Accuracy:  0.3913
+Precision: 0.4211
+Recall:    0.5106
+F1 Score:  0.4615
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        12             33
+Actual UP:          23             24
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.2667
+Negative Predictive Value:        0.3429
+
+================================================================================
+
+Model: technical_only_svm_rbf
+Feature Set: technical_only
+Algorithm: svm_rbf
+------------------------------------------------------------
+Accuracy:  0.3913
+Precision: 0.4043
+Recall:    0.4043
+F1 Score:  0.4043
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        17             28
+Actual UP:          28             19
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.3778
+Negative Predictive Value:        0.3778
+
+================================================================================
+
+Model: sentiment_only_logistic
+Feature Set: sentiment_only
+Algorithm: logistic
+------------------------------------------------------------
+Accuracy:  0.4457
+Precision: 0.3889
+Recall:    0.1489
+F1 Score:  0.2154
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        34             11
+Actual UP:          40              7
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.7556
+Negative Predictive Value:        0.4595
+
+================================================================================
+
+Model: sentiment_only_mlp
+Feature Set: sentiment_only
+Algorithm: mlp
+------------------------------------------------------------
+Accuracy:  0.4783
+Precision: 0.4444
+Recall:    0.0851
+F1 Score:  0.1429
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        40              5
+Actual UP:          43              4
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.8889
+Negative Predictive Value:        0.4819
+
+================================================================================
+
+Model: sentiment_only_svm_linear
+Feature Set: sentiment_only
+Algorithm: svm_linear
+------------------------------------------------------------
+Accuracy:  0.4891
+Precision: 0.5000
+Recall:    0.0638
+F1 Score:  0.1132
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        42              3
+Actual UP:          44              3
+
+Additional Metrics:
+Specificity (True Negative Rate): 0.9333
+Negative Predictive Value:        0.4884
+
+================================================================================
+
+Model: sentiment_only_random_forest
+Feature Set: sentiment_only
+Algorithm: random_forest
+------------------------------------------------------------
+Accuracy:  0.4891
+Precision: 0.0000
+Recall:    0.0000
+F1 Score:  0.0000
+
+Confusion Matrix:
+                Predicted DOWN  Predicted UP
+Actual DOWN:        45              0
+Actual UP:          47              0
+
+Additional Metrics:
+Specificity (True Negative Rate): 1.0000
+Negative Predictive Value:        0.4891
+
+================================================================================

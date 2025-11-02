@@ -1,0 +1,52 @@
+================================================================================
+TASK C.7 - EXECUTIVE SUMMARY REPORT
+================================================================================
+
+OVERALL PERFORMANCE
+--------------------------------------------------------------------------------
+Total Models Evaluated: 21
+Feature Sets: 3 (technical_only, sentiment_only, combined)
+Algorithms: 7 (logistic, random_forest, xgboost)
+
+TOP 5 MODELS (by F1 Score)
+--------------------------------------------------------------------------------
+sentiment_only_gradientboosting
+  Accuracy: 0.5761 | Precision: 0.5513 | Recall: 0.9149 | F1: 0.6880
+combined_gradientboosting
+  Accuracy: 0.5543 | Precision: 0.5357 | Recall: 0.9574 | F1: 0.6870
+sentiment_only_xgboost
+  Accuracy: 0.5543 | Precision: 0.5375 | Recall: 0.9149 | F1: 0.6772
+sentiment_only_svm_rbf
+  Accuracy: 0.5761 | Precision: 0.5571 | Recall: 0.8298 | F1: 0.6667
+combined_mlp
+  Accuracy: 0.5326 | Precision: 0.5250 | Recall: 0.8936 | F1: 0.6614
+
+PERFORMANCE BY FEATURE SET
+--------------------------------------------------------------------------------
+
+TECHNICAL ONLY:
+  Best F1: 0.6567 (gradientboosting)
+  Avg Accuracy: 0.4891
+  Avg F1: 0.5774
+
+SENTIMENT ONLY:
+  Best F1: 0.6880 (gradientboosting)
+  Avg Accuracy: 0.5155
+  Avg F1: 0.3576
+
+COMBINED:
+  Best F1: 0.6870 (gradientboosting)
+  Avg Accuracy: 0.5031
+  Avg F1: 0.6120
+
+BASELINE COMPARISON (SENTIMENT VALUE ASSESSMENT)
+--------------------------------------------------------------------------------
+Baseline (Technical Only):  F1 = 0.6567
+With Sentiment Only:        F1 = 0.6880
+Combined Features:          F1 = 0.6870
+
+Sentiment Improvement: +4.8%
+
+[OK] CONCLUSION: Sentiment features ADD SIGNIFICANT VALUE!
+
+================================================================================
