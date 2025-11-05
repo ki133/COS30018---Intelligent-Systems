@@ -1,5 +1,5 @@
 # File: data_processing.py
-# Authors: [Your Name]
+# Authors: Anh Vu Le
 # Date: 31/08/2025
 # Task: COS30018 - Option C - Task C.2: Enhanced Data Processing
 

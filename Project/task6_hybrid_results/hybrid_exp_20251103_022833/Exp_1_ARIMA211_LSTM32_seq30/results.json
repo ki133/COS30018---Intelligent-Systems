@@ -1,0 +1,49 @@
+{
+  "config": {
+    "name": "Exp_1_ARIMA211_LSTM32_seq30",
+    "arima_order": [
+      2,
+      1,
+      1
+    ],
+    "lstm_units": [
+      32
+    ],
+    "lstm_dropout": 0.2,
+    "sequence_length": 30,
+    "epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001
+  },
+  "metrics": {
+    "arima": {
+      "MAE": 0.3499603156496824,
+      "RMSE": 0.4134825680447396,
+      "R2": -2.250476072018388
+    },
+    "hybrid": {
+      "MAE": 0.3511223145449382,
+      "RMSE": 0.41458896663017875,
+      "R2": -2.267894623290727
+    },
+    "improvement_pct": -0.33203733203252583
+  },
+  "training_results": {
+    "arima": {
+      "order": [
+        2,
+        1,
+        1
+      ],
+      "aic": -4706.58190525042,
+      "bic": -4687.114172112572,
+      "n_obs": 961
+    },
+    "lstm": {
+      "final_loss": 0.0004913623561151326,
+      "final_val_loss": 0.00029791094129905105,
+      "final_mae": 0.01598522812128067,
+      "best_epoch": 1
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "config": {
+    "name": "Exp_7_SARIMA_LSTM96_48_seq60",
+    "arima_order": [
+      1,
+      1,
+      1
+    ],
+    "seasonal_order": [
+      1,
+      1,
+      1,
+      5
+    ],
+    "lstm_units": [
+      96,
+      48
+    ],
+    "lstm_dropout": 0.25,
+    "sequence_length": 60,
+    "epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001
+  },
+  "metrics": {
+    "arima": {
+      "MAE": 0.28375426642685553,
+      "RMSE": 0.33733706363041094,
+      "R2": -1.1635188534139846
+    },
+    "hybrid": {
+      "MAE": 0.28413943854830065,
+      "RMSE": 0.33770801032827164,
+      "R2": -1.1682796195201393
+    },
+    "improvement_pct": -0.13574143793337756
+  },
+  "training_results": {
+    "arima": {
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "seasonal_order": [
+        1,
+        1,
+        1,
+        5
+      ],
+      "aic": -4620.567561501262,
+      "bic": -4596.295788989987
+    },
+    "lstm": {
+      "final_loss": 0.00042267749086022377,
+      "final_val_loss": 0.000305960449622944,
+      "final_mae": 0.01501583494246006,
+      "best_epoch": 10
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "config": {
+    "name": "Experiment_2_ARIMA310_LSTM128_64",
+    "arima_order": [
+      3,
+      1,
+      0
+    ],
+    "lstm_units": [
+      128,
+      64
+    ],
+    "lstm_dropout": 0.3,
+    "sequence_length": 90,
+    "epochs": 50,
+    "batch_size": 16
+  },
+  "metrics": {
+    "arima": {
+      "MAE": 0.3503195322551401,
+      "RMSE": 0.4138248439627432,
+      "R2": -2.255859709682014
+    },
+    "hybrid": {
+      "MAE": 0.3507425404244466,
+      "RMSE": 0.41422894233469065,
+      "R2": -2.2622214833122127
+    },
+    "improvement_pct": -0.12074923901142358
+  },
+  "training_results": {
+    "arima": {
+      "order": [
+        3,
+        1,
+        0
+      ],
+      "aic": -4709.746874501765,
+      "bic": -4690.279141363917,
+      "n_obs": 961
+    },
+    "lstm": {
+      "final_loss": 0.0003850674256682396,
+      "final_val_loss": 0.00031192495953291655,
+      "final_mae": 0.014544405043125153,
+      "best_epoch": 8
+    }
+  }
+}

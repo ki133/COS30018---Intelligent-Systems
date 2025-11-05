@@ -13,8 +13,8 @@ This script:
 5. Evaluates and compares all approaches
 6. Saves results, plots, and model artifacts
 
-Author: [Your Name]
-Date: 14/10/2025
+Author: Anh Vu Le
+Date: 12/10/2025
 """
 
 import os

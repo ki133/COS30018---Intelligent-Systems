@@ -1,0 +1,50 @@
+{
+  "config": {
+    "name": "Exp_5_ARIMA312_LSTM128_64_seq90",
+    "arima_order": [
+      3,
+      1,
+      2
+    ],
+    "lstm_units": [
+      128,
+      64
+    ],
+    "lstm_dropout": 0.3,
+    "sequence_length": 90,
+    "epochs": 100,
+    "batch_size": 16,
+    "learning_rate": 0.0005
+  },
+  "metrics": {
+    "arima": {
+      "MAE": 0.3498319081863231,
+      "RMSE": 0.4133625061622764,
+      "R2": -2.2485886811240086
+    },
+    "hybrid": {
+      "MAE": 0.3507067160937538,
+      "RMSE": 0.4141962370274678,
+      "R2": -2.2617063684420367
+    },
+    "improvement_pct": -0.2500652133094703
+  },
+  "training_results": {
+    "arima": {
+      "order": [
+        3,
+        1,
+        2
+      ],
+      "aic": -4703.00076391788,
+      "bic": -4673.799164211109,
+      "n_obs": 961
+    },
+    "lstm": {
+      "final_loss": 0.00037640234222635627,
+      "final_val_loss": 0.0003098878660239279,
+      "final_mae": 0.014436222612857819,
+      "best_epoch": 9
+    }
+  }
+}
